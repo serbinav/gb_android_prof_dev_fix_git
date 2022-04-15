@@ -10,4 +10,6 @@ data class Meanings(
     val translation: Translation?,
     @SerializedName("imageUrl")
     val imageUrl: String? = null,
+    @SerializedName("previewUrl")
+    val previewUrl: String? = null,
 ) : Parcelable

@@ -3,11 +3,11 @@ package com.example.mytranslator.retrofit
 import com.example.mytranslator.Constants
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 
 object ApiFactory {
 
@@ -27,7 +27,7 @@ object ApiFactory {
                     )
                     .build()
             )
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.createSynchronous())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(SearchApi::class.java)

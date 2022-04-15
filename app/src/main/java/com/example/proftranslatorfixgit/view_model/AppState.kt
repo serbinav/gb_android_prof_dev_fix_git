@@ -1,10 +1,10 @@
 package com.example.mytranslator.view_model
 
-import com.example.mytranslator.retrofit.Data
+import com.example.mytranslator.retrofit.ApiData
 
 sealed class AppState {
 
-    data class Success(val data: List<Data>?) : AppState()
+    data class Success(val data: List<ApiData>?) : AppState()
 
     data class Error(val error: Throwable) : AppState()
 

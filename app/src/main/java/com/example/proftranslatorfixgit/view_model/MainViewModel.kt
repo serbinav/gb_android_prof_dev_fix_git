@@ -1,74 +1,50 @@
 package com.example.mytranslator.view_model
 
 import androidx.lifecycle.LiveData
-import com.example.mytranslator.model.RemoteModel
-import com.example.mytranslator.retrofit.Data
-import com.example.mytranslator.retrofit.Meanings
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.observers.DisposableSingleObserver
-import io.reactivex.rxjava3.schedulers.Schedulers
-import javax.inject.Inject
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.mytranslator.model.ModelProvider
+import com.example.mytranslator.parseSearchResults
+import kotlinx.coroutines.*
 
-class MainViewModel @Inject constructor(private val repository: RemoteModel) : BaseViewModel<AppState>() {
+class MainViewModel(
+    private val provider: ModelProvider
+) : ViewModel() {
 
-    private var appState: AppState? = null
+    private val liveDataForViewToObserve: MutableLiveData<AppState> = MutableLiveData()
+
+    private val coroutineScope = CoroutineScope(
+        Dispatchers.IO
+                + SupervisorJob()
+                + CoroutineExceptionHandler { _, throwable ->
+            handleError(throwable)
+        })
+
+    private var coroutineJob: Job? = null
+
+    private fun handleError(error: Throwable) {
+        liveDataForViewToObserve.postValue(AppState.Error(error))
+    }
+
+    fun getData(word: String) {
+        liveDataForViewToObserve.value = AppState.Loading(null)
+        coroutineJob?.cancel()
+        coroutineJob = coroutineScope.launch {
+            startProvider(word)
+        }
+    }
+
+    private suspend fun startProvider(word: String) = withContext(Dispatchers.IO) {
+        liveDataForViewToObserve.postValue(parseSearchResults(provider.getData(word)))
+    }
+
+    override fun onCleared() {
+        liveDataForViewToObserve.value = AppState.Success(null)
+        super.onCleared()
+        coroutineScope.cancel()
+    }
 
     fun subscribe(): LiveData<AppState> {
         return liveDataForViewToObserve
-    }
-
-    override fun getData(word: String){
-        compositeDisposable.add(
-            repository.getData(word)
-                .map { AppState.Success(it) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { liveDataForViewToObserve.value = AppState.Loading(null) }
-                .subscribeWith(getObserver())
-        )
-    }
-
-    private fun getObserver(): DisposableSingleObserver<AppState> {
-        return object : DisposableSingleObserver<AppState>() {
-
-            override fun onError(e: Throwable) {
-                liveDataForViewToObserve.value = AppState.Error(e)
-            }
-
-            override fun onSuccess(state: AppState) {
-                appState = parseSearchResults(state)
-                liveDataForViewToObserve.value = state
-            }
-        }
-    }
-
-    fun parseSearchResults(state: AppState): AppState {
-        val newSearchResults = arrayListOf<Data>()
-        when (state) {
-            is AppState.Success -> {
-                val searchResults = state.data
-                if (!searchResults.isNullOrEmpty()) {
-                    for (searchResult in searchResults) {
-                        parseResult(searchResult, newSearchResults)
-                    }
-                }
-            }
-        }
-
-        return AppState.Success(newSearchResults)
-    }
-
-    private fun parseResult(dataModel: Data, newDataModels: ArrayList<Data>) {
-        if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
-            val newMeanings = arrayListOf<Meanings>()
-            for (meaning in dataModel.meanings) {
-                if (meaning.translation != null && !meaning.translation.translation.isNullOrBlank()) {
-                    newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
-                }
-            }
-            if (newMeanings.isNotEmpty()) {
-                newDataModels.add(Data(dataModel.text, newMeanings))
-            }
-        }
     }
 }

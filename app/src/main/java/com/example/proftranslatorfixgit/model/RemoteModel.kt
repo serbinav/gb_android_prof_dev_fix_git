@@ -1,14 +1,13 @@
 package com.example.mytranslator.model
 
+import com.example.mytranslator.retrofit.ApiData
 import com.example.mytranslator.retrofit.ApiFactory
-import com.example.mytranslator.retrofit.Data
-import io.reactivex.rxjava3.core.Single
 
-class RemoteModel : MainRepository<Data> {
+class RemoteModel : DataSource<List<ApiData>> {
 
     private val skyEngApi = ApiFactory.create()
 
-    override fun getData(word: String): Single<List<Data>> {
-        return skyEngApi.search(word)
+    override suspend fun getData(word: String): List<ApiData> {
+        return skyEngApi.search(word).await()
     }
 }
