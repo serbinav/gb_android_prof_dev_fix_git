@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mytranslator.databinding.ActivityMainRecyclerviewItemBinding
-import com.example.mytranslator.model.WordTranslate
+import com.example.mytranslator.retrofit.Data
 
-class MainAdapter(
-    private var data: List<WordTranslate>
-) : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class MainAdapter :
+    RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
-    fun setData(data: List<WordTranslate>) {
+    private var data: List<Data> = arrayListOf()
+
+    fun setData(data: List<Data>) {
         this.data = data
         notifyDataSetChanged()
     }
@@ -39,10 +40,12 @@ class MainAdapter(
     inner class MainViewHolder(private val binding: ActivityMainRecyclerviewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: WordTranslate) {
+        fun bind(data: Data) {
             with(binding) {
-                wordOriginal.text = data.original
-                wordTranslate.text = data.translate
+                if (layoutPosition != RecyclerView.NO_POSITION) {
+                    wordOriginal.text = data.text.orEmpty()
+                    wordTranslate.text = data.meanings?.get(0)?.translation?.translation.orEmpty()
+                }
             }
         }
     }
