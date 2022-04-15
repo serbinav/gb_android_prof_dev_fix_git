@@ -1,16 +1,7 @@
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
 rootProject.name = "ProfTranslatorFixGit"
-include ':app'
+include ":app"
+include ':Core'
+include ':HistoryScreen'
+include ':Model'
+include ':Repository'
+include ':Utils'
