@@ -1,4 +1,4 @@
-package com.example.mytranslator.retrofit
+package com.example.proftranslatorfixgit.retrofit
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

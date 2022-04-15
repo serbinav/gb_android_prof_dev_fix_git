@@ -1,10 +1,10 @@
-package com.example.mytranslator.view_model
+package com.example.proftranslatorfixgit.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mytranslator.model.HistoryProvider
-import com.example.mytranslator.utils.parseLocalSearchResults
+import com.example.proftranslatorfixgit.model.HistoryProvider
+import com.example.proftranslatorfixgit.utils.parseLocalSearchResults
 import kotlinx.coroutines.*
 
 class HistoryViewModel(

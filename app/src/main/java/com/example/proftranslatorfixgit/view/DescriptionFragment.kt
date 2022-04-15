@@ -1,4 +1,4 @@
-package com.example.mytranslator.view
+package com.example.proftranslatorfixgit.view
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -13,8 +13,8 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.example.mytranslator.R
-import com.example.mytranslator.databinding.FragmentDescriptionBinding
+import com.example.proftranslatorfixgit.R
+import com.example.proftranslatorfixgit.databinding.FragmentDescriptionBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso

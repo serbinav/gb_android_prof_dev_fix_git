@@ -1,4 +1,4 @@
-package com.example.mytranslator.room
+package com.example.proftranslatorfixgit.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

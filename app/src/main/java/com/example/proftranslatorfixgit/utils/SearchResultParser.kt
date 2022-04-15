@@ -1,9 +1,9 @@
-package com.example.mytranslator.utils
+package com.example.proftranslatorfixgit.utils
 
-import com.example.mytranslator.retrofit.ApiData
-import com.example.mytranslator.retrofit.Meanings
-import com.example.mytranslator.room.HistoryEntity
-import com.example.mytranslator.view_model.AppState
+import com.example.proftranslatorfixgit.retrofit.ApiData
+import com.example.proftranslatorfixgit.retrofit.Meanings
+import com.example.proftranslatorfixgit.room.HistoryEntity
+import com.example.proftranslatorfixgit.view_model.AppState
 
 fun parseOnlineSearchResults(appState: AppState): AppState {
     return AppState.Success(mapResult(appState, true))

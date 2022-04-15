@@ -1,10 +1,10 @@
-package com.example.mytranslator.view
+package com.example.proftranslatorfixgit.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mytranslator.databinding.ActivityMainRecyclerviewItemBinding
-import com.example.mytranslator.retrofit.ApiData
+import com.example.proftranslatorfixgit.databinding.ActivityMainRecyclerviewItemBinding
+import com.example.proftranslatorfixgit.retrofit.ApiData
 
 class MainAdapter(private var onListItemClickListener: OnListItemClickListener) :
     RecyclerView.Adapter<MainAdapter.MainViewHolder>() {

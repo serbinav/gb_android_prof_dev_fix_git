@@ -1,6 +1,6 @@
-package com.example.mytranslator.model
+package com.example.proftranslatorfixgit.model
 
-import com.example.mytranslator.retrofit.ApiData
+import com.example.proftranslatorfixgit.retrofit.ApiData
 
 class RepositoryImplementation(private val dataSource: DataSource<List<ApiData>>) :
     Repository<List<ApiData>> {

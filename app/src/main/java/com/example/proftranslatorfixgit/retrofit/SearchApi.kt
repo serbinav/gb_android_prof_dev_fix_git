@@ -1,4 +1,4 @@
-package com.example.mytranslator.retrofit
+package com.example.proftranslatorfixgit.retrofit
 
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET

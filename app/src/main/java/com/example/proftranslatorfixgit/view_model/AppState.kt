@@ -1,6 +1,6 @@
-package com.example.mytranslator.view_model
+package com.example.proftranslatorfixgit.view_model
 
-import com.example.mytranslator.retrofit.ApiData
+import com.example.proftranslatorfixgit.retrofit.ApiData
 
 sealed class AppState {
 

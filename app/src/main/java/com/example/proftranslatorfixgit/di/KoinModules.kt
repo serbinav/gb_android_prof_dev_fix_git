@@ -1,11 +1,11 @@
-package com.example.mytranslator.di
+package com.example.proftranslatorfixgit.di
 
 import androidx.room.Room
-import com.example.mytranslator.model.*
-import com.example.mytranslator.retrofit.ApiData
-import com.example.mytranslator.room.HistoryDataBase
-import com.example.mytranslator.view_model.HistoryViewModel
-import com.example.mytranslator.view_model.MainViewModel
+import com.example.proftranslatorfixgit.model.*
+import com.example.proftranslatorfixgit.retrofit.ApiData
+import com.example.proftranslatorfixgit.room.HistoryDataBase
+import com.example.proftranslatorfixgit.view_model.HistoryViewModel
+import com.example.proftranslatorfixgit.view_model.MainViewModel
 import org.koin.dsl.module
 
 val application = module {

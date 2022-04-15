@@ -1,4 +1,4 @@
-package com.example.mytranslator.model
+package com.example.proftranslatorfixgit.model
 
 interface Provider<T> {
 

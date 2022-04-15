@@ -1,7 +1,7 @@
-package com.example.mytranslator.model
+package com.example.proftranslatorfixgit.model
 
-import com.example.mytranslator.retrofit.ApiData
-import com.example.mytranslator.view_model.AppState
+import com.example.proftranslatorfixgit.retrofit.ApiData
+import com.example.proftranslatorfixgit.view_model.AppState
 
 class ModelProvider(
     private val repositoryRemote: Repository<List<ApiData>>,

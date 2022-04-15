@@ -1,10 +1,10 @@
-package com.example.mytranslator.view_model
+package com.example.proftranslatorfixgit.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mytranslator.model.ModelProvider
-import com.example.mytranslator.utils.parseOnlineSearchResults
+import com.example.proftranslatorfixgit.model.ModelProvider
+import com.example.proftranslatorfixgit.utils.parseOnlineSearchResults
 import kotlinx.coroutines.*
 
 class MainViewModel(

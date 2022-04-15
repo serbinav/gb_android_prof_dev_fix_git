@@ -1,7 +1,7 @@
-package com.example.mytranslator.model
+package com.example.proftranslatorfixgit.model
 
-import com.example.mytranslator.retrofit.ApiData
-import com.example.mytranslator.retrofit.ApiFactory
+import com.example.proftranslatorfixgit.retrofit.ApiData
+import com.example.proftranslatorfixgit.retrofit.ApiFactory
 
 class RemoteModel : DataSource<List<ApiData>> {
 

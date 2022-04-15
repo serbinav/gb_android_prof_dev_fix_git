@@ -1,6 +1,6 @@
-package com.example.mytranslator.model
+package com.example.proftranslatorfixgit.model
 
-import com.example.mytranslator.view_model.AppState
+import com.example.proftranslatorfixgit.view_model.AppState
 
 interface DataSourceLocal<T> : DataSource<T> {
 

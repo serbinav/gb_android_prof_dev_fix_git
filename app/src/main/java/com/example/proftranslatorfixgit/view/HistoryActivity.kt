@@ -1,12 +1,12 @@
-package com.example.mytranslator.view
+package com.example.proftranslatorfixgit.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mytranslator.R
-import com.example.mytranslator.databinding.ActivityHistoryBinding
-import com.example.mytranslator.view_model.AppState
-import com.example.mytranslator.view_model.HistoryViewModel
+import com.example.proftranslatorfixgit.R
+import com.example.proftranslatorfixgit.databinding.ActivityHistoryBinding
+import com.example.proftranslatorfixgit.view_model.AppState
+import com.example.proftranslatorfixgit.view_model.HistoryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryActivity : AppCompatActivity() {

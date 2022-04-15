@@ -1,10 +1,10 @@
-package com.example.mytranslator.model
+package com.example.proftranslatorfixgit.model
 
-import com.example.mytranslator.retrofit.ApiData
-import com.example.mytranslator.room.HistoryDao
-import com.example.mytranslator.utils.convertDataModelSuccessToEntity
-import com.example.mytranslator.utils.mapHistoryEntityToSearchResult
-import com.example.mytranslator.view_model.AppState
+import com.example.proftranslatorfixgit.retrofit.ApiData
+import com.example.proftranslatorfixgit.room.HistoryDao
+import com.example.proftranslatorfixgit.utils.convertDataModelSuccessToEntity
+import com.example.proftranslatorfixgit.utils.mapHistoryEntityToSearchResult
+import com.example.proftranslatorfixgit.view_model.AppState
 
 class LocalModel(private val historyDao: HistoryDao) :
     DataSourceLocal<List<ApiData>> {

@@ -1,16 +1,16 @@
-package com.example.mytranslator.view
+package com.example.proftranslatorfixgit.view
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mytranslator.R
-import com.example.mytranslator.databinding.ActivityMainBinding
-import com.example.mytranslator.retrofit.ApiData
-import com.example.mytranslator.utils.convertMeaningsToString
-import com.example.mytranslator.view_model.AppState
-import com.example.mytranslator.view_model.MainViewModel
+import com.example.proftranslatorfixgit.R
+import com.example.proftranslatorfixgit.databinding.ActivityMainBinding
+import com.example.proftranslatorfixgit.retrofit.ApiData
+import com.example.proftranslatorfixgit.utils.convertMeaningsToString
+import com.example.proftranslatorfixgit.view_model.AppState
+import com.example.proftranslatorfixgit.view_model.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
