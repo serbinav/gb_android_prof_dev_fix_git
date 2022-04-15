@@ -7,4 +7,9 @@
     <string name="example_translate">доска</string>
     <string name="reload">Reload</string>
     <string name="error">Error</string>
+    <string name="fragment_header">HEADER</string>
+    <string name="fragment_text">Choosing the input type configures the keyboard type that is shown, acceptable characters, and appearance of the edit text. For example, if you want to accept a secret number, like a unique pin or serial number, you can set inputType to `numericPassword`. An inputType of `numericPassword` results.</string>
+    <string name="menu_title_history">История</string>
+    <string name="history_text_view">История поиска переводов слов</string>
+    <string name="positive_button">OK</string>
 </resources>

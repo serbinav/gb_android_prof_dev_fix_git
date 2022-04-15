@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mytranslator.model.ModelProvider
-import com.example.mytranslator.parseSearchResults
+import com.example.mytranslator.utils.parseOnlineSearchResults
 import kotlinx.coroutines.*
 
 class MainViewModel(
@@ -35,7 +35,7 @@ class MainViewModel(
     }
 
     private suspend fun startProvider(word: String) = withContext(Dispatchers.IO) {
-        liveDataForViewToObserve.postValue(parseSearchResults(provider.getData(word)))
+        liveDataForViewToObserve.postValue(parseOnlineSearchResults(provider.getData(word)))
     }
 
     override fun onCleared() {

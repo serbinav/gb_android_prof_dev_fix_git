@@ -1,6 +1,6 @@
 package com.example.mytranslator.retrofit
 
-import com.example.mytranslator.Constants
+import com.example.mytranslator.utils.Constants
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory

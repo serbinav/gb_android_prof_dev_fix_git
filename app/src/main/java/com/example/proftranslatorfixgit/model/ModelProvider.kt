@@ -5,9 +5,12 @@ import com.example.mytranslator.view_model.AppState
 
 class ModelProvider(
     private val repositoryRemote: Repository<List<ApiData>>,
+    private val repositoryLocal: RepositoryLocal<List<ApiData>>
 ) : Provider<AppState> {
 
     override suspend fun getData(word: String): AppState {
-        return AppState.Success(repositoryRemote.getData(word))
+        val appState = AppState.Success(repositoryRemote.getData(word))
+        repositoryLocal.saveToDB(appState)
+        return appState
     }
 }

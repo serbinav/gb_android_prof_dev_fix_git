@@ -1,17 +1,20 @@
 package com.example.mytranslator.model
 
 import com.example.mytranslator.retrofit.ApiData
-import com.example.mytranslator.retrofit.Meanings
-import com.example.mytranslator.retrofit.Translation
+import com.example.mytranslator.room.HistoryDao
+import com.example.mytranslator.utils.convertDataModelSuccessToEntity
+import com.example.mytranslator.utils.mapHistoryEntityToSearchResult
+import com.example.mytranslator.view_model.AppState
 
-class LocalModel : DataSource<List<ApiData>> {
-    private var data: List<ApiData> = arrayListOf(
-        ApiData(text = "school", arrayListOf(Meanings(Translation("школа")))),
-        ApiData(text = "schooling", arrayListOf(Meanings(Translation("образование")))),
-        ApiData(text = "schoolhouse", arrayListOf(Meanings(Translation("здание школы"))))
-    )
-
+class LocalModel(private val historyDao: HistoryDao) :
+    DataSourceLocal<List<ApiData>> {
     override suspend fun getData(word: String): List<ApiData> {
-        return data
+        return mapHistoryEntityToSearchResult(historyDao.all())
+    }
+
+    override suspend fun saveToDB(appState: AppState) {
+        convertDataModelSuccessToEntity(appState)?.let {
+            historyDao.insert(it)
+        }
     }
 }

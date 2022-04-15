@@ -3,11 +3,12 @@ package com.example.mytranslator.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mytranslator.databinding.ActivityMainRecyclerviewItemBinding
+import com.example.mytranslator.databinding.ActivityHistoryRecyclerviewItemBinding
 import com.example.mytranslator.retrofit.ApiData
+import com.google.android.material.snackbar.Snackbar
 
-class MainAdapter(private var onListItemClickListener: OnListItemClickListener) :
-    RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class HistoryAdapter :
+    RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     private var data: List<ApiData> = arrayListOf()
 
@@ -19,17 +20,17 @@ class MainAdapter(private var onListItemClickListener: OnListItemClickListener) 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MainViewHolder {
+    ): HistoryAdapter.HistoryViewHolder {
         val binding =
-            ActivityMainRecyclerviewItemBinding.inflate(
+            ActivityHistoryRecyclerviewItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
-        return MainViewHolder(binding)
+        return HistoryViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         holder.bind(data[position])
     }
 
@@ -37,25 +38,19 @@ class MainAdapter(private var onListItemClickListener: OnListItemClickListener) 
         return data.size
     }
 
-    inner class MainViewHolder(private val binding: ActivityMainRecyclerviewItemBinding) :
+    inner class HistoryViewHolder(private val binding: ActivityHistoryRecyclerviewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: ApiData) {
             with(binding) {
                 if (layoutPosition != RecyclerView.NO_POSITION) {
                     wordOriginal.text = data.text.orEmpty()
-                    wordTranslate.text = data.meanings?.get(0)?.translation?.translation.orEmpty()
-                    itemView.setOnClickListener { openInNewWindow(data) }
+                    itemView.setOnClickListener {
+                        Snackbar.make(itemView, "on click: ${data.text}", Snackbar.LENGTH_LONG)
+                            .show()
+                    }
                 }
             }
         }
-    }
-
-    private fun openInNewWindow(listItemData: ApiData) {
-        onListItemClickListener.onItemClick(listItemData)
-    }
-
-    interface OnListItemClickListener {
-        fun onItemClick(data: ApiData)
     }
 }
