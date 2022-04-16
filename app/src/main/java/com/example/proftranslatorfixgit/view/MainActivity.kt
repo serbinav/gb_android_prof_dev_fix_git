@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.example.proftranslatorfixgit.history.HistoryActivity
 import com.example.proftranslatorfixgit.R
 import com.example.proftranslatorfixgit.databinding.ActivityMainBinding
-import com.example.proftranslatorfixgit.retrofit.ApiData
-import com.example.proftranslatorfixgit.utils.convertMeaningsToString
-import com.example.proftranslatorfixgit.view_model.AppState
 import com.example.proftranslatorfixgit.view_model.MainViewModel
+import com.example.utils.convertMeaningsToString
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -21,12 +20,12 @@ class MainActivity : AppCompatActivity() {
 
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
-            override fun onItemClick(data: ApiData) {
+            override fun onItemClick(data: com.example.model.ApiData) {
                 val searchDialogFragment =
                 DescriptionFragment.newInstance(
                     data.text!!,
                     convertMeaningsToString(data.meanings!!),
-                    data.meanings[0].imageUrl
+                    data.meanings!![0].imageUrl
                 )
                 searchDialogFragment.show(supportFragmentManager, DESCRIPTION_FRAGMENT_DIALOG_TAG)
             }
@@ -55,9 +54,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun renderData(appState: AppState) {
+    fun renderData(appState: com.example.model.AppState) {
         when (appState) {
-            is AppState.Success -> {
+            is com.example.model.AppState.Success -> {
                 val data = appState.data
                 if (data.isNullOrEmpty()) {
                     showErrorScreen(getString(R.string.empty_server_response))
@@ -65,10 +64,10 @@ class MainActivity : AppCompatActivity() {
                     adapter.setData(data)
                 }
             }
-            is AppState.Loading -> {
+            is com.example.model.AppState.Loading -> {
 
             }
-            is AppState.Error -> {
+            is com.example.model.AppState.Error -> {
                 showErrorScreen(appState.error.message)
             }
         }

@@ -1,20 +1,24 @@
 package com.example.proftranslatorfixgit.di
 
 import androidx.room.Room
-import com.example.proftranslatorfixgit.model.*
-import com.example.proftranslatorfixgit.retrofit.ApiData
-import com.example.proftranslatorfixgit.room.HistoryDataBase
-import com.example.proftranslatorfixgit.view_model.HistoryViewModel
+import com.example.proftranslatorfixgit.history.HistoryProvider
+import com.example.proftranslatorfixgit.history.HistoryViewModel
+import com.example.proftranslatorfixgit.model.ModelProvider
 import com.example.proftranslatorfixgit.view_model.MainViewModel
+import com.example.repository.room.HistoryDataBase
 import org.koin.dsl.module
 
 val application = module {
-    single { Room.databaseBuilder(get(), HistoryDataBase::class.java, "HistoryDB").build() }
+    single { Room.databaseBuilder(get(), com.example.repository.room.HistoryDataBase::class.java, "HistoryDB").build() }
     single { get<HistoryDataBase>().historyDao() }
-    single<Repository<List<ApiData>>> { RepositoryImplementation(dataSource = RemoteModel()) }
-    single<RepositoryLocal<List<ApiData>>> {
-        RepositoryImplementationLocal(
-            dataSource = LocalModel(
+    single<com.example.repository.Repository<List<com.example.model.ApiData>>> {
+        com.example.repository.RepositoryImplementation(
+            dataSource = com.example.repository.RemoteModel()
+        )
+    }
+    single<com.example.repository.RepositoryLocal<List<com.example.model.ApiData>>> {
+        com.example.repository.RepositoryImplementationLocal(
+            dataSource = com.example.repository.LocalModel(
                 historyDao = get()
             )
         )
