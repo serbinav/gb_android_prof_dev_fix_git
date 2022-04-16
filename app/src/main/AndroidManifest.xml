@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProfTranslatorFixGit">
         <activity
-            android:name=".view.HistoryActivity"
+            android:name=".history.HistoryActivity"
             android:exported="false" />
         <activity
             android:name=".view.MainActivity"

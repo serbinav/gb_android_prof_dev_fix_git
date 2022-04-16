@@ -2,13 +2,13 @@ import org.gradle.api.JavaVersion
 
 object Modules {
     const val app = ":app"
-    const val core = ":core"
-    const val model = ":model"
-    const val repository = ":repository"
-    const val utils = ":utils"
+    const val core = ":Core"
+    const val model = ":Model"
+    const val repository = ":Repository"
+    const val utils = ":Utils"
 
     //Features
-    const val historyScreen = ":historyScreen"
+    const val historyScreen = ":HistoryScreen"
 }
 
 object Config {
