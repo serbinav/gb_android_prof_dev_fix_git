@@ -34,7 +34,9 @@ dependencies {
     implementation project(Modules.Model)
     implementation project(Modules.Repository)
     implementation project(Modules.Utils)
-    implementation project(Modules.HistoryScreen) //Feature
+
+    //Feature
+    implementation project(Modules.HistoryScreen)
 
     //AndroidX
     implementation Design.appcompat
