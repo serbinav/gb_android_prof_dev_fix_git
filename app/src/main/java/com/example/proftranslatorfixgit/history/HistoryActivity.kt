@@ -6,13 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.model.AppState
 import com.example.proftranslatorfixgit.R
 import com.example.proftranslatorfixgit.databinding.ActivityHistoryBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.getOrCreateScope
+import org.koin.core.component.inject
+import org.koin.core.scope.Scope
 
-class HistoryActivity : AppCompatActivity() {
+class HistoryActivity : AppCompatActivity(), KoinScopeComponent {
 
     private lateinit var binding: ActivityHistoryBinding
-    private lateinit var model: HistoryViewModel
+    private val model: HistoryViewModel by inject()
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
+    override val scope: Scope by getOrCreateScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +30,11 @@ class HistoryActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         model.getData("")
+    }
+
+    override fun onDestroy() {
+        scope.close()
+        super.onDestroy()
     }
 
     private fun renderData(appState: AppState) {
@@ -56,8 +65,8 @@ class HistoryActivity : AppCompatActivity() {
             builder
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(R.string.positive_button) {
-                        dialog, _ ->  dialog.cancel()
+                .setPositiveButton(R.string.positive_button) { dialog, _ ->
+                    dialog.cancel()
                 }
             builder.create()
         }
@@ -67,8 +76,6 @@ class HistoryActivity : AppCompatActivity() {
         if (binding.recycler.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
-        val viewModel: HistoryViewModel by viewModel()
-        model = viewModel
         model.subscribe().observe(this@HistoryActivity) { renderData(it) }
     }
 

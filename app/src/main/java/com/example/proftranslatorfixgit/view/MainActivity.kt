@@ -5,22 +5,32 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.example.model.ApiData
+import com.example.model.AppState
 import com.example.proftranslatorfixgit.history.HistoryActivity
 import com.example.proftranslatorfixgit.R
 import com.example.proftranslatorfixgit.databinding.ActivityMainBinding
 import com.example.proftranslatorfixgit.view_model.MainViewModel
 import com.example.utils.convertMeaningsToString
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.getKoin
+import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var model: MainViewModel
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
+    private val scope: Scope by lazy {
+        getKoin().createScope(
+            this.toString(),
+            named("MainActivity")
+        )
+    }
 
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
-            override fun onItemClick(data: com.example.model.ApiData) {
+            override fun onItemClick(data: ApiData) {
                 val searchDialogFragment =
                 DescriptionFragment.newInstance(
                     data.text!!,
@@ -39,6 +49,11 @@ class MainActivity : AppCompatActivity() {
         initViews()
     }
 
+    override fun onDestroy() {
+        scope.close()
+        super.onDestroy()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.history_menu, menu)
         return super.onCreateOptionsMenu(menu)
@@ -54,9 +69,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun renderData(appState: com.example.model.AppState) {
+    private fun renderData(appState: AppState) {
         when (appState) {
-            is com.example.model.AppState.Success -> {
+            is AppState.Success -> {
                 val data = appState.data
                 if (data.isNullOrEmpty()) {
                     showErrorScreen(getString(R.string.empty_server_response))
@@ -64,10 +79,10 @@ class MainActivity : AppCompatActivity() {
                     adapter.setData(data)
                 }
             }
-            is com.example.model.AppState.Loading -> {
+            is AppState.Loading -> {
 
             }
-            is com.example.model.AppState.Error -> {
+            is AppState.Error -> {
                 showErrorScreen(appState.error.message)
             }
         }
@@ -77,8 +92,7 @@ class MainActivity : AppCompatActivity() {
         if (binding.recycler.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
-        val viewModel: MainViewModel by viewModel()
-        model = viewModel
+        model = scope.get()
         model.subscribe().observe(this@MainActivity) { renderData(it) }
     }
 
