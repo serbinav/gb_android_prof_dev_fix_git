@@ -1,11 +1,13 @@
 package com.example.proftranslatorfixgit.history
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.model.AppState
 import com.example.proftranslatorfixgit.R
 import com.example.proftranslatorfixgit.databinding.ActivityHistoryBinding
+import com.example.utils.FashionPref
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.getOrCreateScope
 import org.koin.core.component.inject
@@ -17,6 +19,12 @@ class HistoryActivity : AppCompatActivity(), KoinScopeComponent {
     private val model: HistoryViewModel by inject()
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
     override val scope: Scope by getOrCreateScope()
+    private val sharedPref: SharedPreferences by lazy {
+        getSharedPreferences(
+            "HistoryActivity",
+            MODE_PRIVATE
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +56,9 @@ class HistoryActivity : AppCompatActivity(), KoinScopeComponent {
                     )
                 } else {
                     adapter.setData(data)
+                    val pref = FashionPref(sharedPref)
+                    pref.countWord = data.size
+                    pref.lastWord = data.last().text ?: "empty"
                 }
             }
             is AppState.Loading -> {
