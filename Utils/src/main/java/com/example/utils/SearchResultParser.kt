@@ -33,10 +33,8 @@ private fun mapResult(
     isOnline: Boolean
 ): List<ApiData> {
     val newSearchResults = arrayListOf<ApiData>()
-    when (data) {
-        is AppState.Success -> {
-            getSuccessResultData(data, isOnline, newSearchResults)
-        }
+    if (data is AppState.Success) {
+        getSuccessResultData(data, isOnline, newSearchResults)
     }
     return newSearchResults
 }

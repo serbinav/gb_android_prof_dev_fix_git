@@ -44,7 +44,7 @@ class HistoryAdapter :
         fun bind(data: ApiData) {
             with(binding) {
                 if (layoutPosition != RecyclerView.NO_POSITION) {
-                    wordOriginal.text = data.text.orEmpty()
+                    wordOriginal.text = data.text
                     itemView.setOnClickListener {
                         Snackbar.make(itemView, "on click: ${data.text}", Snackbar.LENGTH_LONG)
                             .show()

@@ -58,7 +58,7 @@ class HistoryActivity : AppCompatActivity(), KoinScopeComponent {
                     adapter.setData(data)
                     val pref = FashionPref(sharedPref)
                     pref.countWord = data.size
-                    pref.lastWord = data.last().text ?: "empty"
+                    pref.lastWord = data.last().text
                 }
             }
             is AppState.Loading -> {
