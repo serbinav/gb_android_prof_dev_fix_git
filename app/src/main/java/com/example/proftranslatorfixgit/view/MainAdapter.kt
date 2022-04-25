@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proftranslatorfixgit.databinding.ActivityMainRecyclerviewItemBinding
 import com.example.model.ApiData
+import com.example.utils.convertMeaningsToSingleString
 
 class MainAdapter(private var onListItemClickListener: OnListItemClickListener) :
     RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
-    private var data: List<com.example.model.ApiData> = arrayListOf()
+    private var data: List<ApiData> = arrayListOf()
 
-    fun setData(data: List<com.example.model.ApiData>) {
+    fun setData(data: List<ApiData>) {
         this.data = data
         notifyDataSetChanged()
     }
@@ -40,22 +41,22 @@ class MainAdapter(private var onListItemClickListener: OnListItemClickListener) 
     inner class MainViewHolder(private val binding: ActivityMainRecyclerviewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: com.example.model.ApiData) {
+        fun bind(data: ApiData) {
             with(binding) {
                 if (layoutPosition != RecyclerView.NO_POSITION) {
-                    wordOriginal.text = data.text.orEmpty()
-                    wordTranslate.text = data.meanings?.get(0)?.translation?.translation.orEmpty()
+                    wordOriginal.text = data.text
+                    wordTranslate.text = convertMeaningsToSingleString(data.meanings)
                     itemView.setOnClickListener { openInNewWindow(data) }
                 }
             }
         }
     }
 
-    private fun openInNewWindow(listItemData: com.example.model.ApiData) {
+    private fun openInNewWindow(listItemData: ApiData) {
         onListItemClickListener.onItemClick(listItemData)
     }
 
     interface OnListItemClickListener {
-        fun onItemClick(data: com.example.model.ApiData)
+        fun onItemClick(data: ApiData)
     }
 }

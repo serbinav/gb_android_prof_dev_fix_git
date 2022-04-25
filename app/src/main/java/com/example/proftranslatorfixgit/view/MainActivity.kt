@@ -11,12 +11,18 @@ import com.example.proftranslatorfixgit.history.HistoryActivity
 import com.example.proftranslatorfixgit.R
 import com.example.proftranslatorfixgit.databinding.ActivityMainBinding
 import com.example.proftranslatorfixgit.view_model.MainViewModel
-import com.example.utils.convertMeaningsToString
+import com.example.utils.convertMeaningsToSingleString
 import org.koin.android.ext.android.getKoin
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 
 class MainActivity : AppCompatActivity() {
+
+//- Добавьте скоупы в свои зависимости.
+// - * Добавьте делегат viewById в свой проект.
+// - * Напишите extension-функции для делегатов View и RecyclerView.ViewHolder по аналогии с Activity и Fragment.
+// - * Напишите делегат для SharedPreferences.
+//- Отрефакторите приложение с учетом наиболее распространенных ошибок в работе с Архитектурными компонентами.
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var model: MainViewModel
@@ -33,9 +39,9 @@ class MainActivity : AppCompatActivity() {
             override fun onItemClick(data: ApiData) {
                 val searchDialogFragment =
                 DescriptionFragment.newInstance(
-                    data.text!!,
-                    convertMeaningsToString(data.meanings!!),
-                    data.meanings!![0].imageUrl
+                    data.text,
+                    convertMeaningsToSingleString(data.meanings),
+                    data.meanings[0].imageUrl
                 )
                 searchDialogFragment.show(supportFragmentManager, DESCRIPTION_FRAGMENT_DIALOG_TAG)
             }

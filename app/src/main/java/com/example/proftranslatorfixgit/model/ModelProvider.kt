@@ -1,15 +1,19 @@
 package com.example.proftranslatorfixgit.model
 
-import com.example.model.ApiData
+import com.example.core.Provider
+import com.example.model.ApiDataDTO
 import com.example.model.AppState
+import com.example.repository.Repository
+import com.example.repository.RepositoryLocal
+import com.example.utils.mapSearchResultToResult
 
 class ModelProvider(
-    private val repositoryRemote: com.example.repository.Repository<List<com.example.model.ApiData>>,
-    private val repositoryLocal: com.example.repository.RepositoryLocal<List<com.example.model.ApiData>>
-) : com.example.core.Provider<com.example.model.AppState> {
+    private val repositoryRemote: Repository<List<ApiDataDTO>>,
+    private val repositoryLocal: RepositoryLocal<List<ApiDataDTO>>
+) : Provider<AppState> {
 
-    override suspend fun getData(word: String): com.example.model.AppState {
-        val appState = com.example.model.AppState.Success(repositoryRemote.getData(word))
+    override suspend fun getData(word: String): AppState {
+        val appState = AppState.Success(mapSearchResultToResult(repositoryRemote.getData(word)))
         repositoryLocal.saveToDB(appState)
         return appState
     }
