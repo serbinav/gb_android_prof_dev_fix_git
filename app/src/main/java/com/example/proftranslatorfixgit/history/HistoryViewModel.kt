@@ -11,7 +11,8 @@ class HistoryViewModel(
     private val provider: HistoryProvider
 ) : ViewModel() {
 
-    private val liveDataForViewToObserve: MutableLiveData<AppState> = MutableLiveData()
+    private val _liveDataForViewToObserve: MutableLiveData<AppState> = MutableLiveData()
+    private val liveData: LiveData<AppState> = _liveDataForViewToObserve
 
     private val coroutineScope = CoroutineScope(
         Dispatchers.IO
@@ -23,28 +24,28 @@ class HistoryViewModel(
     private var coroutineJob: Job? = null
 
     fun subscribe(): LiveData<AppState> {
-        return liveDataForViewToObserve
+        return liveData
     }
 
     private fun handleError(error: Throwable) {
-        liveDataForViewToObserve.postValue(AppState.Error(error))
+        _liveDataForViewToObserve.postValue(AppState.Error(error))
     }
 
     private suspend fun startProvider(word: String) {
-        liveDataForViewToObserve.postValue(parseLocalSearchResults(provider.getData(word)))
-    }
-
-    override fun onCleared() {
-        liveDataForViewToObserve.value = AppState.Success(null)
-        super.onCleared()
-        coroutineScope.cancel()
+        _liveDataForViewToObserve.postValue(parseLocalSearchResults(provider.getData(word)))
     }
 
     fun getData(word: String) {
-        liveDataForViewToObserve.value = AppState.Loading(null)
+        _liveDataForViewToObserve.value = AppState.Loading(null)
         coroutineJob?.cancel()
         coroutineJob = coroutineScope.launch {
             startProvider(word)
         }
+    }
+
+    override fun onCleared() {
+        _liveDataForViewToObserve.value = AppState.Success(null)
+        super.onCleared()
+        coroutineScope.cancel()
     }
 }
