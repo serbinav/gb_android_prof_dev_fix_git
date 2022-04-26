@@ -1,70 +1,95 @@
 package com.example.utils
 
-import com.example.model.ApiData
-import com.example.model.AppState
-import com.example.model.Meanings
+import com.example.model.*
 
-fun parseOnlineSearchResults(appState: AppState): AppState {
-    return AppState.Success(mapResult(appState, true))
+fun mapSearchResultToResult(searchResults: List<ApiDataDTO>):
+        List<ApiData> {
+    return searchResults.map { searchResult ->
+        var meanings: List<Meanings> = listOf()
+        searchResult.meanings?.let {
+            meanings = it.map { meaningsDto ->
+                Meanings(
+                    Translation(
+                        meaningsDto?.translation?.translation ?: ""
+                    ),
+                    meaningsDto?.imageUrl ?: ""
+                )
+            }
+        }
+        ApiData(searchResult.text ?: "", meanings)
+    }
 }
 
-fun parseLocalSearchResults(appState: AppState): AppState {
-    return AppState.Success(mapResult(appState, false))
+fun parseOnlineSearchResults(data: AppState): AppState {
+    return AppState.Success(mapResult(data, true))
+}
+
+fun parseLocalSearchResults(data: AppState): AppState {
+    return AppState.Success(mapResult(data, false))
 }
 
 private fun mapResult(
-    appState: AppState,
+    data: AppState,
     isOnline: Boolean
 ): List<ApiData> {
     val newSearchResults = arrayListOf<ApiData>()
-    when (appState) {
-        is AppState.Success -> {
-            getSuccessResultData(appState, isOnline, newSearchResults)
-        }
+    if (data is AppState.Success) {
+        getSuccessResultData(data, isOnline, newSearchResults)
     }
     return newSearchResults
 }
 
 private fun getSuccessResultData(
-    appState: AppState.Success,
+    data: AppState.Success,
     isOnline: Boolean,
-    newDataModels: ArrayList<ApiData>
+    newSearchDataModels: ArrayList<ApiData>
 ) {
-    val dataModels: List<ApiData> = appState.data as List<ApiData>
-    if (dataModels.isNotEmpty()) {
+    val searchDataModels: List<ApiData> = data.data as List<ApiData>
+    if (searchDataModels.isNotEmpty()) {
         if (isOnline) {
-            for (searchResult in dataModels) {
-                parseOnlineResult(searchResult, newDataModels)
+            for (searchResult in searchDataModels) {
+                parseOnlineResult(searchResult, newSearchDataModels)
             }
         } else {
-            for (searchResult in dataModels) {
-                newDataModels.add(ApiData(searchResult.text, arrayListOf()))
+            for (searchResult in searchDataModels) {
+                newSearchDataModels.add(
+                    ApiData(
+                        searchResult.text,
+                        arrayListOf()
+                    )
+                )
             }
         }
     }
 }
 
-private fun parseOnlineResult(dataModel: ApiData, newDataModels: ArrayList<ApiData>) {
-    if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
+private fun parseOnlineResult(
+    searchDataModel: ApiData,
+    newSearchDataModels: ArrayList<ApiData>
+) {
+    if (searchDataModel.text.isNotBlank() && searchDataModel.meanings.isNotEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
-        for (meaning in dataModel.meanings!!) {
-            if (meaning.translation != null && !meaning.translation!!.translation.isNullOrBlank()) {
-                newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
-            }
-        }
+        newMeanings.addAll(searchDataModel.meanings.filter {
+            it.translation.translation.isNotBlank()
+        })
         if (newMeanings.isNotEmpty()) {
-            newDataModels.add(ApiData(dataModel.text, newMeanings))
+            newSearchDataModels.add(
+                ApiData(
+                    searchDataModel.text,
+                    newMeanings
+                )
+            )
         }
     }
 }
 
-fun convertMeaningsToString(meanings: List<Meanings>): String {
+fun convertMeaningsToSingleString(meanings: List<Meanings>): String {
     var meaningsSeparatedByComma = String()
     for ((index, meaning) in meanings.withIndex()) {
         meaningsSeparatedByComma += if (index + 1 != meanings.size) {
-            String.format("%s%s", meaning.translation?.translation, ", ")
+            String.format("%s%s", meaning.translation.translation, ", ")
         } else {
-            meaning.translation?.translation
+            meaning.translation.translation
         }
     }
     return meaningsSeparatedByComma

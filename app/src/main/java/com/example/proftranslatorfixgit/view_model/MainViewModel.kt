@@ -3,6 +3,7 @@ package com.example.proftranslatorfixgit.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.model.AppState
 import com.example.proftranslatorfixgit.model.ModelProvider
 import com.example.utils.parseOnlineSearchResults
 import kotlinx.coroutines.*
@@ -11,7 +12,8 @@ class MainViewModel(
     private val provider: ModelProvider
 ) : ViewModel() {
 
-    private val liveDataForViewToObserve: MutableLiveData<com.example.model.AppState> = MutableLiveData()
+    private val liveDataForViewToObserve: MutableLiveData<AppState> = MutableLiveData()
+    fun getPromotions(): LiveData<AppState> = liveDataForViewToObserve
 
     private val coroutineScope = CoroutineScope(
         Dispatchers.IO
@@ -22,29 +24,29 @@ class MainViewModel(
 
     private var coroutineJob: Job? = null
 
-    private fun handleError(error: Throwable) {
-        liveDataForViewToObserve.postValue(com.example.model.AppState.Error(error))
+    fun subscribe(): LiveData<AppState> {
+        return getPromotions()
     }
 
-    fun getData(word: String) {
-        liveDataForViewToObserve.value = com.example.model.AppState.Loading(null)
-        coroutineJob?.cancel()
-        coroutineJob = coroutineScope.launch {
-            startProvider(word)
-        }
+    private fun handleError(error: Throwable) {
+        liveDataForViewToObserve.postValue(AppState.Error(error))
     }
 
     private suspend fun startProvider(word: String) = withContext(Dispatchers.IO) {
         liveDataForViewToObserve.postValue(parseOnlineSearchResults(provider.getData(word)))
     }
 
-    override fun onCleared() {
-        liveDataForViewToObserve.value = com.example.model.AppState.Success(null)
-        super.onCleared()
-        coroutineScope.cancel()
+    fun getData(word: String) {
+        liveDataForViewToObserve.value = AppState.Loading(null)
+        coroutineJob?.cancel()
+        coroutineJob = coroutineScope.launch {
+            startProvider(word)
+        }
     }
 
-    fun subscribe(): LiveData<com.example.model.AppState> {
-        return liveDataForViewToObserve
+    override fun onCleared() {
+        liveDataForViewToObserve.value = AppState.Success(null)
+        super.onCleared()
+        coroutineScope.cancel()
     }
 }

@@ -1,18 +1,30 @@
 package com.example.proftranslatorfixgit.history
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.model.AppState
 import com.example.proftranslatorfixgit.R
 import com.example.proftranslatorfixgit.databinding.ActivityHistoryBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.utils.FashionPref
+import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.getOrCreateScope
+import org.koin.core.component.inject
+import org.koin.core.scope.Scope
 
-class HistoryActivity : AppCompatActivity() {
+class HistoryActivity : AppCompatActivity(), KoinScopeComponent {
 
     private lateinit var binding: ActivityHistoryBinding
-    private lateinit var model: HistoryViewModel
+    private val model: HistoryViewModel by inject()
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
+    override val scope: Scope by getOrCreateScope()
+    private val sharedPref: SharedPreferences by lazy {
+        getSharedPreferences(
+            "HistoryActivity",
+            MODE_PRIVATE
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +40,11 @@ class HistoryActivity : AppCompatActivity() {
         model.getData("")
     }
 
+    override fun onDestroy() {
+        scope.close()
+        super.onDestroy()
+    }
+
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
@@ -39,6 +56,9 @@ class HistoryActivity : AppCompatActivity() {
                     )
                 } else {
                     adapter.setData(data)
+                    val pref = FashionPref(sharedPref)
+                    pref.countWord = data.size
+                    pref.lastWord = data.last().text
                 }
             }
             is AppState.Loading -> {
@@ -56,8 +76,8 @@ class HistoryActivity : AppCompatActivity() {
             builder
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(R.string.positive_button) {
-                        dialog, _ ->  dialog.cancel()
+                .setPositiveButton(R.string.positive_button) { dialog, _ ->
+                    dialog.cancel()
                 }
             builder.create()
         }
@@ -67,8 +87,6 @@ class HistoryActivity : AppCompatActivity() {
         if (binding.recycler.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
-        val viewModel: HistoryViewModel by viewModel()
-        model = viewModel
         model.subscribe().observe(this@HistoryActivity) { renderData(it) }
     }
 

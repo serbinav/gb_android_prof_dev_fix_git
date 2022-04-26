@@ -1,11 +1,11 @@
 package com.example.repository
 
-import com.example.model.ApiData
+import com.example.model.ApiDataDTO
 
-class RepositoryImplementation(private val dataSource: com.example.repository.DataSource<List<com.example.model.ApiData>>) :
-    Repository<List<com.example.model.ApiData>> {
+class RepositoryImplementation(private val dataSource: DataSource<List<ApiDataDTO>>) :
+    Repository<List<ApiDataDTO>> {
 
-    override suspend fun getData(word: String): List<com.example.model.ApiData> {
+    override suspend fun getData(word: String): List<ApiDataDTO> {
         return dataSource.getData(word)
     }
 }
