@@ -18,11 +18,12 @@ import org.koin.core.scope.Scope
 
 class MainActivity : AppCompatActivity() {
 
-//- Добавьте скоупы в свои зависимости.
-// - * Добавьте делегат viewById в свой проект.
-// - * Напишите extension-функции для делегатов View и RecyclerView.ViewHolder по аналогии с Activity и Fragment.
-// - * Напишите делегат для SharedPreferences.
-//- Отрефакторите приложение с учетом наиболее распространенных ошибок в работе с Архитектурными компонентами.
+// - Подготовьте своё приложение к Android 12 с учётом всех новых фич и
+//     ограничений операционной системы (обратите пристальное внимание на изменения в
+//     Android 10 — материалы прилагаются к уроку);
+// - Добавьте новый Splash Screen к своему приложению с помощью Splash Screen API;
+// - Прочитайте дополнительную методичку про нововведения в Android 10;
+// - * Добавьте анимированную иконку на Splash screen.
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var model: MainViewModel
