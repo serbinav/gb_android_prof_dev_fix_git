@@ -1,10 +1,18 @@
 package com.example.proftranslatorfixgit.view
 
+import android.animation.ObjectAnimator
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewTreeObserver
+import android.view.animation.AnticipateInterpolator
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
 import com.example.model.ApiData
 import com.example.model.AppState
 import com.example.proftranslatorfixgit.history.HistoryActivity
@@ -16,10 +24,16 @@ import org.koin.android.ext.android.getKoin
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 
+private const val DESCRIPTION_FRAGMENT_DIALOG_TAG = "ad19a4e1-7838-42c0-b0f7-742ec6973640"
+private const val SLIDE_LEFT_DURATION = 3000L
+private const val COUNTDOWN_DURATION = 1000L
+private const val COUNTDOWN_INTERVAL = 500L
+
 class MainActivity : AppCompatActivity() {
 
 // - Подготовьте своё приложение к Android 12 с учётом всех новых фич и
-//     ограничений операционной системы (обратите пристальное внимание на изменения в
+//     ограничений операционной системы
+//     (обратите пристальное внимание на изменения в
 //     Android 10 — материалы прилагаются к уроку);
 // - Добавьте новый Splash Screen к своему приложению с помощью Splash Screen API;
 // - Прочитайте дополнительную методичку про нововведения в Android 10;
@@ -39,11 +53,11 @@ class MainActivity : AppCompatActivity() {
         object : MainAdapter.OnListItemClickListener {
             override fun onItemClick(data: ApiData) {
                 val searchDialogFragment =
-                DescriptionFragment.newInstance(
-                    data.text,
-                    convertMeaningsToSingleString(data.meanings),
-                    data.meanings[0].imageUrl
-                )
+                    DescriptionFragment.newInstance(
+                        data.text,
+                        convertMeaningsToSingleString(data.meanings),
+                        data.meanings[0].imageUrl
+                    )
                 searchDialogFragment.show(supportFragmentManager, DESCRIPTION_FRAGMENT_DIALOG_TAG)
             }
         }
@@ -54,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar.mainToolbar)
-//        setDefaultSplashScreen()
+        setDefaultSplashScreen()
 
         initViewModel()
         initViews()
@@ -114,15 +128,61 @@ class MainActivity : AppCompatActivity() {
         binding.recycler.adapter = adapter
     }
 
+    private fun setDefaultSplashScreen() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            setSplashScreenHideAnimation()
+        }
+
+        setSplashScreenDuration()
+    }
+
+    private fun setSplashScreenDuration() {
+        var isHideSplashScreen = false
+
+        object : CountDownTimer(COUNTDOWN_DURATION, COUNTDOWN_INTERVAL) {
+            override fun onTick(millisUntilFinished: Long) {}
+            override fun onFinish() {
+                isHideSplashScreen = true
+            }
+        }.start()
+
+        val content: View = findViewById(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener(
+            object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    return if (isHideSplashScreen) {
+                        content.viewTreeObserver.removeOnPreDrawListener(this)
+                        true
+                    } else {
+                        false
+                    }
+                }
+            }
+        )
+    }
+
+    @RequiresApi(31)
+    private fun setSplashScreenHideAnimation() {
+        splashScreen.setOnExitAnimationListener { splashScreenView ->
+            val slideUp = ObjectAnimator.ofFloat(
+                splashScreenView,
+                View.TRANSLATION_Y,
+                0f,
+                -splashScreenView.height.toFloat()
+            )
+            slideUp.interpolator = AnticipateInterpolator()
+            slideUp.duration = SLIDE_LEFT_DURATION
+
+            slideUp.doOnEnd { splashScreenView.remove() }
+
+            slideUp.start()
+        }
+    }
+
     private fun showErrorScreen(error: String?) {
         binding.errorText.text = error ?: getString(R.string.undefined_error)
         binding.reloadBtn.setOnClickListener {
             model.getData("test")
         }
-    }
-
-    companion object {
-        private const val DESCRIPTION_FRAGMENT_DIALOG_TAG =
-            "ad19a4e1-7838-42c0-b0f7-742ec6973640"
     }
 }
