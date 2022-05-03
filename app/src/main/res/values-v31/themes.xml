@@ -12,6 +12,6 @@
         <item name="android:windowSplashScreenBackground">@color/color_peach</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_baseline_waves_24</item>
         <item name="android:windowSplashScreenAnimationDuration">1500</item>
-        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_baseline_wine_bar_24</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_baseline_style_centered</item>
     </style>
 </resources>

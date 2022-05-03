@@ -14,17 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProfTranslatorFixGit">
         <activity
-            android:name=".history.HistoryActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".history.HistoryActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
