@@ -1,9 +1,15 @@
 package com.example.proftranslatorfixgit.view
 
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import coil.ImageLoader
 import coil.request.LoadRequest
 import coil.transform.CircleCropTransformation
@@ -59,6 +65,30 @@ class DescriptionFragment : BottomSheetDialogFragment() {
             //useCoilToLoadPhoto(binding.descriptionImageview, imageLink)
         }
         binding.close.setOnClickListener { dismiss() }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            binding.btnBlur.visibility = View.VISIBLE
+            val blurEffect = RenderEffect.createBlurEffect(15f, 0f, Shader.TileMode.MIRROR)
+
+            binding.btnBlur.setOnClickListener{
+                blurPhoto(blurEffect)
+            }
+
+            binding.btnBlur.setOnLongClickListener{
+                blurFragment(blurEffect)
+                true
+            }
+        }
+    }
+
+    @RequiresApi(31)
+    private fun blurPhoto(effect: RenderEffect) {
+        binding.descrImg.setRenderEffect(effect)
+    }
+
+    @RequiresApi(31)
+    private fun blurFragment(effect: RenderEffect) {
+        binding.root.setRenderEffect(effect)
     }
 
     private fun usePicassoToLoadPhoto(imageView: ImageView, imageLink: String) {

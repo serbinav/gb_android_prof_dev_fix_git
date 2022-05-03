@@ -12,4 +12,5 @@
     <string name="menu_title_history">История</string>
     <string name="history_text_view">История поиска переводов слов</string>
     <string name="positive_button">OK</string>
+    <string name="blur">Blur</string>
 </resources>

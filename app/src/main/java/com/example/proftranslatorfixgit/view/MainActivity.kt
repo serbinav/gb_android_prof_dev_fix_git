@@ -30,15 +30,7 @@ private const val COUNTDOWN_DURATION = 1000L
 private const val COUNTDOWN_INTERVAL = 500L
 
 class MainActivity : AppCompatActivity() {
-
-// - Подготовьте своё приложение к Android 12 с учётом всех новых фич и
-//     ограничений операционной системы
-//     (обратите пристальное внимание на изменения в
-//     Android 10 — материалы прилагаются к уроку);
-// - Добавьте новый Splash Screen к своему приложению с помощью Splash Screen API;
-// - Прочитайте дополнительную методичку про нововведения в Android 10;
-// - * Добавьте анимированную иконку на Splash screen.
-
+    
     private lateinit var binding: ActivityMainBinding
     private lateinit var model: MainViewModel
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
