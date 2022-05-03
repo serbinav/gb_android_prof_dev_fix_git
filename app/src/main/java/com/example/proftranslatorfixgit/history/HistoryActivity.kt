@@ -31,6 +31,8 @@ class HistoryActivity : AppCompatActivity(), KoinScopeComponent {
         binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar.mainToolbar)
+
         initViewModel()
         initViews()
     }
