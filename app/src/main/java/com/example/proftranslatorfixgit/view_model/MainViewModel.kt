@@ -13,7 +13,7 @@ class MainViewModel(
 ) : ViewModel() {
 
     private val liveDataForViewToObserve: MutableLiveData<AppState> = MutableLiveData()
-    fun getPromotions(): LiveData<AppState> = liveDataForViewToObserve
+    private fun getPromotions(): LiveData<AppState> = liveDataForViewToObserve
 
     private val coroutineScope = CoroutineScope(
         Dispatchers.IO

@@ -28,7 +28,7 @@ object Versions {
     //Design
     const val appcompat = "1.4.1"
     const val material = "1.5.0"
-    const val constraintlayout = "2.1.3"
+    const val constraintLayout = "2.1.3"
 
     //Kotlin
     const val core = "1.7.0"
@@ -72,7 +72,7 @@ object Versions {
 object Design {
     const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     const val material = "com.google.android.material:material:${Versions.material}"
-    const val constraint_layout = "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout}"
+    const val constraint_layout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 }
 
 object Kotlin {
