@@ -77,4 +77,13 @@ dependencies {
     androidTestImplementation TestImpl.runner
     androidTestImplementation TestImpl.espresso
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //Test core
+    androidTestImplementation TestImpl.androidJunit
+
+    //Fragment
+    debugImplementation TestImpl.fragmentTest
+
+    //RecyclerView
+    debugImplementation TestImpl.recyclerTest
 }
