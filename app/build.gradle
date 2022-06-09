@@ -26,6 +26,26 @@ android {
         sourceCompatibility Config.java_version
         targetCompatibility Config.java_version
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        mock {
+            dimension 'default'
+            applicationIdSuffix ".network"
+            versionNameSuffix "-network"
+        }
+        network {
+            dimension 'default'
+            applicationIdSuffix ".network"
+            versionNameSuffix "-network"
+        }
+    }
+
+    variantFilter {
+        if (name == "mockRelease") {
+            setIgnore(true)
+        }
+    }
 }
 
 dependencies {
@@ -77,4 +97,13 @@ dependencies {
     androidTestImplementation TestImpl.runner
     androidTestImplementation TestImpl.espresso
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //Test core
+    androidTestImplementation TestImpl.androidJunit
+
+    //Fragment
+    debugImplementation TestImpl.fragmentTest
+
+    //RecyclerView
+    debugImplementation TestImpl.recyclerTest
 }

@@ -67,6 +67,9 @@ object Versions {
     const val jUnit = "4.13.2"
     const val runner = "1.4.0"
     const val espressoCore = "3.4.0"
+    const val androidJunit = "1.1.3"
+    const val fragment = "1.4.1"
+    const val recycler = "3.4.0"
 }
 
 object Design {
@@ -123,4 +126,7 @@ object TestImpl {
     const val junit = "junit:junit:${Versions.jUnit}"
     const val runner = "androidx.test:runner:${Versions.runner}"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
+    const val androidJunit = "androidx.test.ext:junit:${Versions.androidJunit}"
+    const val fragmentTest = "androidx.fragment:fragment-testing:${Versions.fragment}"
+    const val recyclerTest = "androidx.test.espresso:espresso-contrib:${Versions.recycler}"
 }
