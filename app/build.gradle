@@ -100,10 +100,19 @@ dependencies {
 
     //Test core
     androidTestImplementation TestImpl.androidJunit
+    testImplementation TestImpl.coreTesting
+    testImplementation TestImpl.coroutinesTest
 
     //Fragment
     debugImplementation TestImpl.fragmentTest
 
     //RecyclerView
     debugImplementation TestImpl.recyclerTest
+
+    //Robolectric
+    testImplementation TestImpl.robolectricTest
+    testImplementation TestImpl.coreTest
+    testImplementation TestImpl.runner
+    testImplementation TestImpl.androidJunit
+    testImplementation TestImpl.truthTest
 }
