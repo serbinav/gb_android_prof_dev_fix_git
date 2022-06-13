@@ -4,9 +4,16 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.model.ApiData
+import com.example.model.ApiDataDTO
 import com.example.model.AppState
 import com.example.proftranslatorfixgit.model.ModelProvider
+import com.example.proftranslatorfixgit.view.MockData
 import com.example.proftranslatorfixgit.view_model.MainViewModel
+import com.example.repository.LocalModel
+import com.example.repository.RemoteModel
+import com.example.repository.Repository
+import com.example.repository.RepositoryLocal
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Before
@@ -34,12 +41,16 @@ class MainViewModelTest {
     @Mock
     private lateinit var model: ModelProvider
 
-//    @Mock
-//    private lateinit var repository: FakeGitHubRepository
+    @Mock
+    private lateinit var repositoryRemote: Repository<List<ApiDataDTO>>
+
+    @Mock
+    private lateinit var repositoryLocal: RepositoryLocal<List<ApiDataDTO>>
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
+        model = ModelProvider(repositoryRemote = repositoryRemote, repositoryLocal = repositoryLocal)
         searchViewModel = MainViewModel(model)
     }
 
@@ -49,8 +60,8 @@ class MainViewModelTest {
             val observer = Observer<AppState> {}
             val liveData = searchViewModel.subscribe()
 
-//            `when`(repository.searchGithubAsync(SEARCH_QUERY)).thenReturn(
-//                SearchResponse(1, listOf())
+//            `when`(repositoryRemote.getData(SEARCH_QUERY)).thenReturn(
+//                MockData.dataSuccess
 //            )
 
             try {
@@ -69,8 +80,8 @@ class MainViewModelTest {
             val observer = Observer<AppState> {}
             val liveData = searchViewModel.subscribe()
 
-//            `when`(repository.searchGithubAsync(SEARCH_QUERY)).thenReturn(
-//                SearchResponse(null, listOf())
+//            `when`(repositoryRemote.getData(SEARCH_QUERY)).thenReturn(
+//                MockData.dataError
 //            )
 
             try {
