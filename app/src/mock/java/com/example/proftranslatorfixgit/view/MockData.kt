@@ -7,7 +7,7 @@ import com.example.model.Translation
 
 class MockData {
     companion object {
-        val mockAppState: AppState = AppState.Success(
+        val dataSuccess: List<ApiData> =
             listOf(
                 ApiData(
                     "my",
@@ -176,6 +176,8 @@ class MockData {
                     )
                 )
             )
-        )
+        val dataError: Throwable = Exception("Search results or total count are null")
+
+        val mockAppState: AppState = AppState.Success(dataSuccess)
     }
 }
