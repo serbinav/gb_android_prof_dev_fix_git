@@ -4,16 +4,14 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.model.ApiData
 import com.example.model.ApiDataDTO
 import com.example.model.AppState
+import com.example.model.MeaningsDTO
+import com.example.model.TranslationDTO
 import com.example.proftranslatorfixgit.model.ModelProvider
-import com.example.proftranslatorfixgit.view.MockData
+import com.example.proftranslatorfixgit.view.MockLocalModel
 import com.example.proftranslatorfixgit.view_model.MainViewModel
-import com.example.repository.LocalModel
-import com.example.repository.RemoteModel
-import com.example.repository.Repository
-import com.example.repository.RepositoryLocal
+import com.example.repository.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Before
@@ -50,7 +48,12 @@ class MainViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        model = ModelProvider(repositoryRemote = repositoryRemote, repositoryLocal = repositoryLocal)
+        val dataSourceRem = RemoteModel()
+        val dataSourceLoc = MockLocalModel()
+        repositoryRemote = RepositoryImplementation(dataSourceRem)
+        repositoryLocal = RepositoryImplementationLocal(dataSourceLoc)
+        model =
+            ModelProvider(repositoryRemote = repositoryRemote, repositoryLocal = repositoryLocal)
         searchViewModel = MainViewModel(model)
     }
 
@@ -60,9 +63,20 @@ class MainViewModelTest {
             val observer = Observer<AppState> {}
             val liveData = searchViewModel.subscribe()
 
-//            `when`(repositoryRemote.getData(SEARCH_QUERY)).thenReturn(
-//                MockData.dataSuccess
-//            )
+            `when`(repositoryRemote.getData(SEARCH_QUERY)).thenReturn(
+                listOf(
+                    ApiDataDTO(
+                        "my",
+                        arrayListOf(
+                            MeaningsDTO(
+                                TranslationDTO("мой"),
+                                "//cdn-user77752.skyeng.ru/resized-images/640x480/jpeg/60/81ecce659daf59a45716e5fdd09f8ccc.jpeg",
+                                ""
+                            )
+                        )
+                    )
+                )
+            )
 
             try {
                 liveData.observeForever(observer)
