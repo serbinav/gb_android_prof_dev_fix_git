@@ -65,16 +65,17 @@ object Versions {
 
     //Test
     const val jUnit = "4.13.2"
-    const val runner = "1.4.0"
-    const val espressoCore = "3.4.0"
-    const val androidJunit = "1.1.3"
-    const val fragment = "1.4.1"
-    const val recycler = "3.4.0"
+    const val runner = "1.3.0"
+    const val espressoCore = "3.3.0"
+    const val androidJunit = "1.1.2"
+    const val fragment = "1.3.3"
+    const val recycler = "3.3.0"
     const val coreTesting = "2.1.0"
     const val coroutinesTest = "1.4.3"
-    const val robolectricTest = "4.5.1"
+    const val robolectricTest = "4.6.1"
     const val coreTest = "1.3.0"
     const val truthTest = "1.3.0"
+    const val mockitoCore = "3.10.0"
 }
 
 object Design {
@@ -139,4 +140,5 @@ object TestImpl {
     const val robolectricTest = "org.robolectric:robolectric:${Versions.robolectricTest}"
     const val coreTest = "androidx.test:core:${Versions.coreTest}"
     const val truthTest = "androidx.test.ext:truth:${Versions.truthTest}"
+    const val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
 }

@@ -27,6 +27,12 @@ android {
         targetCompatibility Config.java_version
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     flavorDimensions "default"
     productFlavors {
         mock {
@@ -115,4 +121,5 @@ dependencies {
     testImplementation TestImpl.runner
     testImplementation TestImpl.androidJunit
     testImplementation TestImpl.truthTest
+    testImplementation TestImpl.mockitoCore
 }
